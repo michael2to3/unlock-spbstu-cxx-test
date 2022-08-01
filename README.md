@@ -2,14 +2,10 @@
 Fast and minimal setup for testing your labs
 
 ## Install
-Скопируйте репозиторий в родительскую директорию рядом с вашим форком репозитория
+Скачайте репозиторий и запустите программу, укажите пусть до лабы
 ```bash
 git clone git@github.com:michael2to3/unlock-spbstu-cxx-test.git
-```
-Перейдите в ваш репозиторий и запустите программу
-```bash
-cd ./spbspu-labs-aads-904-a
-python ../unlock/main.py gaile.michael/T2
+python ./main.py ../spbspu-labs-aads-904-a/gaile.michael/T3
 ```
 
 Отчет о проделанных тестах находиться в корне форка
@@ -20,7 +16,7 @@ cat dist/acceptance.xml
 ## Usage
 Examples:
 ```bash
-$ python ../unlock/main.py gaile.michael/T1
-$ python ../unlock/main.py gaile.michael/S3/
-$ python ../unlock/main.py gaile.michael/S0
+$ python ../unlock/main.py gaile.michael/T1 # запустить от родительского каталога
+$ python main.py ../spbspu-labs-aads-904-a/gaile.michael/S0/ # запустить с полным указанием пути к лабе
+$ python out/main.py gaile.michael/S3 # скопировать в out
 ```

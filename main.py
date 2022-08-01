@@ -21,9 +21,19 @@ if len(sys.argv) < 2:
 namelab = sys.argv[1]
 if namelab[-1] == '/':
     namelab = namelab[:-1]
+student = namelab.split('/')[-2]
 namelab = namelab.split('/')[-1]
 
-print('Check lab -', namelab)
+pathtolab = sys.argv[1][:sys.argv[1].rfind('/')]
+os.chdir(pathtolab + '/..')
+print('cd', os.getcwd())
+
+target = student + '/' + namelab
+
+sys.argv.pop()
+sys.argv.append(target)
+
+print('Check lab -', student, '-', namelab)
 lab = strToClass('Lab' + namelab)
 if len(sys.argv) < 3:
     try:
@@ -32,7 +42,6 @@ if len(sys.argv) < 3:
         pass
 
     defaultpathfile = 'dist/acceptance.xml'
-    print(os.getcwd())
     fxml = open(defaultpathfile, 'w')
     fxml.close()
 
@@ -40,5 +49,4 @@ if len(sys.argv) < 3:
 
 collections.Sequence = collections.abc.Sequence
 
-pathtolab = sys.argv[1][:sys.argv[1].rfind('/')]
-print(main(lab(pathtolab)))
+print(main(lab(student)))
