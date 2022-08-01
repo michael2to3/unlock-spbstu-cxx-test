@@ -9,7 +9,8 @@ git clone git@github.com:michael2to3/unlock-spbstu-cxx-test.git
 Перейдите в ваш репозиторий и запустите программу
 ```bash
 cd ./spbspu-labs-aads-904-a
-python ../unlock/main.py gaile.michael/T2```
+python ../unlock/main.py gaile.michael/T2
+```
 
 Отчет о проделанных тестах находиться в корне форка
 ```bash
