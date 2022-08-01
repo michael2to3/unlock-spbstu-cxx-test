@@ -14,13 +14,15 @@ for entry in os.scandir(filepath[:filepath.rfind('/')] + '/test/'):
 def strToClass(classname):
     return getattr(sys.modules[__name__], classname)
 
-
-# python ./test-lab-T0 podshivalov.georgiy out/podshivalov.georgiy/T0/acceptance.xml
 if len(sys.argv) < 2:
     print('Give me your code!')
     exit(1)
 
-namelab = sys.argv[1].split('/')[-1]
+namelab = sys.argv[1]
+if namelab[-1] == '/':
+    namelab = namelab[:-1]
+namelab = namelab.split('/')[-1]
+
 print('Check lab -', namelab)
 lab = strToClass('Lab' + namelab)
 if len(sys.argv) < 3:
@@ -29,7 +31,12 @@ if len(sys.argv) < 3:
     except FileExistsError:
         pass
 
-    sys.argv.append('dist/acceptance.xml')
+    defaultpathfile = 'dist/acceptance.xml'
+    print(os.getcwd())
+    fxml = open(defaultpathfile, 'w')
+    fxml.close()
+
+    sys.argv.append(defaultpathfile)
 
 collections.Sequence = collections.abc.Sequence
 
