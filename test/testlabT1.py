@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 from test.labtesting import Lab, Result, main
-import random
 import sys
 import os.path
 
@@ -12,11 +11,8 @@ class LabT1(Lab):
     def _OXY(self, v):
         return str(v)
 
-    def _getFrameDescNoNewLine(self, x1, y1, x2, y2):
-        return self._OXY(x1) + ' ' + self._OXY(y1) + ' ' + self._OXY(x2) + ' ' + self._OXY(y2)
-
     def _getRectangleDesc(self, x1, y1, x2, y2):
-        return 'RECTANGLE ' + self._getFrameDescNoNewLine(x1, y1, x2, y2) + '\n'
+        return 'RECTANGLE ' + self._OXY(x1) + ' ' + self._OXY(y1) + ' ' + self._OXY(x2) + ' ' + self._OXY(y2) + '\n'
 
     def _getSquareDesc(self, x1, y1, a):
         return 'SQUARE ' + self._OXY(x1) + ' ' + self._OXY(y1) + ' ' + self._OXY(a) + '\n'
@@ -160,81 +156,6 @@ class LabT1(Lab):
         result.succeeded = implementedShapes >= 3
         result.expected = 'Rectangle and atleast two additional shapes must be implemented'
         return result
-
-    def _produceRectangles(self, hell):
-        border1 = random.randint(1000, 3000)
-        border2 = random.randint(3001, 6000)
-        border3 = random.randint(6001, 9999)
-        returnable = []
-        for i in range(hell):
-            x1 = random.randint(border1, border2) * 1.0
-            y1 = random.randint(border1, border2) * 1.0
-            x2 = random.randint(border2, border3) * 1.0
-            y2 = random.randint(border2, border3) * 1.0
-            returnable.append([x1, y1, x2, y2])
-        return returnable
-
-    def _scalePointAround(self, x, y, xo, yo, k):
-        rx = xo + k * (x - xo)
-        ry = yo + k * (y - yo)
-        return [rx, ry]
-
-    def _moveToRect(self, r, xo, yo):
-        dy = r[3] - r[1]
-        dx = r[2] - r[0]
-        x1 = xo - dx / 2.0
-        y1 = yo - dy / 2.0
-        x2 = xo + dx / 2.0
-        y2 = yo + dy / 2.0
-        return [x1, y1, x2, y2]
-
-    def _moveByRect(self, r, dx, dy):
-        return [r[0] + dx, r[1] + dy, r[2] + dx, r[3] + dy]
-
-    def _scaleRect(self, r, k):
-        centerX = (r[0] + r[2]) / 2.0
-        centerY = (r[1] + r[3]) / 2.0
-        leftDown = self._scalePointAround(r[0], r[1], centerX, centerY, k)
-        rightUp = self._scalePointAround(r[2], r[3], centerX, centerY, k)
-        return [leftDown[0], leftDown[1], rightUp[0], rightUp[1]]
-
-    def testRectangleHell(self):
-        amount = random.randint(7000, 8000)
-        amount = 1
-        hell = self._produceRectangles(amount)
-        scaleCoef = 2.0
-        aroundX = 1.0
-        aroundY = 2.0
-
-        area = 0
-        for r in hell:
-            area = area + (r[2] - r[0]) * (r[3] - r[1])
-
-        input = ''
-        for r in hell:
-            input = input + self._getRectangleDesc(r[0], r[1], r[2], r[3])
-        input = input + self._getScaleDesc(aroundX, aroundY, scaleCoef)
-
-        outputBefore = str(area * 1.0)
-        for r in hell:
-            outputBefore = outputBefore + ' ' + self._getFrameDescNoNewLine(r[0], r[1], r[2], r[3])
-        outputBefore = outputBefore + '\n'
-
-        outputAfter = str(area * scaleCoef * scaleCoef)
-        for r in hell:
-            moved = self._moveToRect(r, aroundX, aroundY)
-            scaled = self._scaleRect(moved, scaleCoef)
-            backed = self._moveByRect(scaled, scaleCoef * (r[0] - moved[0]), scaleCoef * (r[1] - moved[1]))
-            outputAfter = outputAfter + ' ' + self._getFrameDescNoNewLine(backed[0], backed[1], backed[2], backed[3])
-        outputAfter = outputAfter + '\n'
-
-        outputResult = outputBefore + outputAfter
-
-        result = self.execute(input = input)
-        result.succeeded = (result.exitCode == 0) and (result.output == outputResult) and (len(result.error) != 0)
-        result.expected = self._getExpectedWithError(input = input, output = self._tapTabs([outputBefore, outputAfter]))
-        return result
-
 
     def testBadRectangleScale(self):
         descs = [

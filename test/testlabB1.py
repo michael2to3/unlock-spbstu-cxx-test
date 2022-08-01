@@ -11,6 +11,7 @@ import tempfile
 
 import sys
 
+
 class VectorSorting(Lab, IntegerSequenceMixin):
     def __init__(self, student, lab, name = None):
         Lab.__init__(self, student, lab, name)

@@ -7,7 +7,7 @@ from test.labtesting import main
 
 filepath = os.path.realpath(__file__)
 for entry in os.scandir(filepath[:filepath.rfind('/')] + '/test/'):
-    if entry.is_file():
+    if entry.is_file() and entry.name[-3:] == '.py':
         string = f'from test.{entry.name[:-3]} import *'
         exec (string)
 
